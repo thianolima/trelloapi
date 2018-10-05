@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.teltelecom.services.BoardService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("trello/boards")
 public class BoardController {
@@ -20,6 +22,7 @@ public class BoardController {
 		try {									
 			return ResponseEntity.ok(service.listar());
 		}catch(RuntimeException e) {
+			log.error("RelatorioController - listar: " + e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}

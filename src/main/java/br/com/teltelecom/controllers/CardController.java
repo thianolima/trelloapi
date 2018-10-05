@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.teltelecom.services.CardService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("trello/cards")
 public class CardController {
@@ -21,10 +23,8 @@ public class CardController {
 		try {									
 			return ResponseEntity.ok(service.listar(idboard));
 		}catch(RuntimeException e) {
+			log.error("RelatorioController - listar: " + e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
-
-	
 }

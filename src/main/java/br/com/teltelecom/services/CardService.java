@@ -13,10 +13,10 @@ public class CardService {
 	@Autowired
 	TrelloUtil trello;
 	
-	public CardEntity[] listar(String idboard) {
+	public CardEntity[] listar(String idBoard) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
-			String url = trello.getUrl() + "/boards/" + idboard +"/cards?key=" + trello.getKey() + "&token=" + trello.getToken() + "&fields=all";
+			String url = trello.getUrl() + "/boards/" + idBoard +"/cards?key=" + trello.getKey() + "&token=" + trello.getToken() + "&fields=all";
 			CardEntity[] cards = restTemplate.getForObject(url, CardEntity[].class);						
 			return cards;
 		}catch(RuntimeException e) {
