@@ -17,20 +17,16 @@ import lombok.extern.slf4j.Slf4j;
 public class RelatorioService {
 
 	@Autowired
+	BoardService boardService;
+	
+	@Autowired
 	CardService cardService;
-	
-	@Autowired
-	ActionService actionService;
-	
-	@Autowired
-	MemberServices memberService;
-	
 	
 	public List<RelatorioDto> listar(String idBoard) {
 		try {
 			List<RelatorioDto> dtos = new ArrayList<RelatorioDto>();
-
-			CardEntity[] cards = cardService.listar(idBoard);				
+			
+			CardEntity[] cards = boardService.listarCards(idBoard);				
 			for(CardEntity card : cards) {
 				if(card.getDue() != null) {
 					RelatorioDto dto = new RelatorioDto();
@@ -50,7 +46,7 @@ public class RelatorioService {
 						dto.setHorasEstimada(dto.getHorasGastas());
 					}
 					
-					dto.setMembros(memberService.listar(card.getId()));
+					dto.setMembros(cardService.listarMembros(card.getId()));
 					
 					dtos.add(dto);
 				}
@@ -63,9 +59,9 @@ public class RelatorioService {
 		}		
 	}
 	
-	private Date encontrarDataInicioQA(String idcard) {
+	private Date encontrarDataInicioQA(String idCard) {
 		try {
-			ActionEntity[] actions = actionService.listar(idcard);
+			ActionEntity[] actions = cardService.listarAcoes(idCard);
 			for(ActionEntity action : actions) {
 				if(action.getData().getListAfter() != null) {
 					if(action.getData().getListAfter().getName().equals("QA/Testes")) {
@@ -75,14 +71,14 @@ public class RelatorioService {
 			}			
 			return null;
 		}catch(Exception e) {
-			log.error("encontrarDataInicioQA - idcard: " + idcard + " ERRO: " + e.getMessage());
+			log.error("encontrarDataInicioQA - idcard: " + idCard + " ERRO: " + e.getMessage());
 			return null;
 		}
 	}
 	
-	private Double encontrarHorasEstimadas(String idcard) {
+	private Double encontrarHorasEstimadas(String idCard) {
 		try {
-			ActionEntity[] actions = actionService.listar(idcard);
+			ActionEntity[] actions = cardService.listarAcoes(idCard);
 			for(ActionEntity action : actions) {
 				if(action.getData().getText() != null) {
 					if(action.getData().getText().contains("plus! @global 0/")) {
@@ -93,15 +89,15 @@ public class RelatorioService {
 			}		
 			return 0d;
 		}catch(Exception e) {
-			log.error("encontrarHorasEstimadas: - idcard: " + idcard + " ERRO: " + e.getMessage());
+			log.error("encontrarHorasEstimadas: - idcard: " + idCard + " ERRO: " + e.getMessage());
 			return 0d;
 		}
 	}
 	
-	private Double somarHorasGastas(String idcard) {
+	private Double somarHorasGastas(String idCard) {
 		Double totalHoras = 0d;		
 		try {
-			ActionEntity[] actions = actionService.listar(idcard);
+			ActionEntity[] actions = cardService.listarAcoes(idCard);
 			for(ActionEntity action : actions) {
 				if(action.getData().getText() != null) {
 					if(action.getData().getText().contains("plus!")) {
@@ -119,17 +115,17 @@ public class RelatorioService {
 				}
 			}		
 		}catch(Exception e) {
-			log.error("somarHorasGastas:  - idcard: " + idcard + " ERRO: " + e.getMessage());
+			log.error("somarHorasGastas:  - idcard: " + idCard + " ERRO: " + e.getMessage());
 			return totalHoras;
 		}
 		
 		return totalHoras;
 	}
 	
-	private int totalEnvioParaQA(String idcard) {
+	private int totalEnvioParaQA(String idCard) {
 		int qtd = 0;
 		try {
-			for(ActionEntity dto : actionService.listar(idcard)) {			
+			for(ActionEntity dto : cardService.listarAcoes(idCard)) {			
 				if (dto.getData().getListAfter() != null) {
 					if((dto.getData().getListAfter().getName().contains("QA/Testes")) &&
 					   (!dto.getData().getListBefore().getName().contains("QA/Testes"))){
@@ -138,7 +134,7 @@ public class RelatorioService {
 				}		
 			}			
 		}catch(RuntimeException e) {
-			log.error("totalEnvioParaQA:  - idcard: " + idcard + " ERRO: " + e.getMessage());
+			log.error("totalEnvioParaQA:  - idcard: " + idCard + " ERRO: " + e.getMessage());
 			return qtd;
 		}
 		
