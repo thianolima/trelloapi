@@ -23,7 +23,7 @@ public class ActionController {
 		try {									
 			return ResponseEntity.ok(service.listar(idcard));
 		}catch(RuntimeException e) {
-			log.error("RelatorioController - listar: " + e.getMessage());
+			log.error("ActionController - listar: " + e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}	

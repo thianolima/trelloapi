@@ -22,7 +22,7 @@ public class BoardController {
 		try {									
 			return ResponseEntity.ok(service.listar());
 		}catch(RuntimeException e) {
-			log.error("RelatorioController - listar: " + e.getMessage());
+			log.error("BoardController - listar: " + e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}

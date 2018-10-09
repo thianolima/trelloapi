@@ -23,7 +23,7 @@ public class CardController {
 		try {									
 			return ResponseEntity.ok(service.listar(idboard));
 		}catch(RuntimeException e) {
-			log.error("RelatorioController - listar: " + e.getMessage());
+			log.error("CardController - listar: " + e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
