@@ -39,11 +39,11 @@ public class BoardController {
 	}
 	
 	@GetMapping(value="/{idBoard}/membros")
-	public ResponseEntity<?> listarMebross(@PathVariable String idBoard) {
+	public ResponseEntity<?> listarMembros(@PathVariable String idBoard) {
 		try {									
 			return ResponseEntity.ok(service.listarMembros(idBoard));
 		}catch(RuntimeException e) {
-			log.error("BoardController - listarMebros: idboard = " + idBoard + " ERRO: " + e.getMessage());
+			log.error("BoardController - listarMembros: idboard = " + idBoard + " ERRO: " + e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
