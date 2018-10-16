@@ -1,11 +1,11 @@
-package br.com.teltelecom.entities;
+package br.com.teltelecom.dtos;
 
 import java.util.Date;
 
 import lombok.Data;
 
 @Data
-public class CardEntity {
+public class CardDto {
 
 	private String id;
 	private String shortUrl;

@@ -7,9 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.teltelecom.dtos.ActionDto;
+import br.com.teltelecom.dtos.CardDto;
 import br.com.teltelecom.dtos.RelatorioDto;
-import br.com.teltelecom.entities.ActionEntity;
-import br.com.teltelecom.entities.CardEntity;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,8 +26,8 @@ public class RelatorioService {
 		try {
 			List<RelatorioDto> dtos = new ArrayList<RelatorioDto>();
 			
-			CardEntity[] cards = boardService.listarCards(idBoard);				
-			for(CardEntity card : cards) {
+			CardDto[] cards = boardService.listarCards(idBoard);				
+			for(CardDto card : cards) {
 				if(card.getDue() != null) {
 					RelatorioDto dto = new RelatorioDto();
 					
@@ -61,8 +61,8 @@ public class RelatorioService {
 	
 	private Date encontrarDataInicioQA(String idCard) {
 		try {
-			ActionEntity[] actions = cardService.listarAcoes(idCard);
-			for(ActionEntity action : actions) {
+			ActionDto[] actions = cardService.listarAcoes(idCard);
+			for(ActionDto action : actions) {
 				if(action.getData().getListAfter() != null) {
 					if(action.getData().getListAfter().getName().equals("QA/Testes")) {
 						return action.getDate();
@@ -78,8 +78,8 @@ public class RelatorioService {
 	
 	private Double encontrarHorasEstimadas(String idCard) {
 		try {
-			ActionEntity[] actions = cardService.listarAcoes(idCard);
-			for(ActionEntity action : actions) {
+			ActionDto[] actions = cardService.listarAcoes(idCard);
+			for(ActionDto action : actions) {
 				if(action.getData().getText() != null) {
 					if(action.getData().getText().contains("plus! @global 0/")) {
 						String valor = action.getData().getText().substring(16);
@@ -97,8 +97,8 @@ public class RelatorioService {
 	private Double somarHorasGastas(String idCard) {
 		Double totalHoras = 0d;		
 		try {
-			ActionEntity[] actions = cardService.listarAcoes(idCard);
-			for(ActionEntity action : actions) {
+			ActionDto[] actions = cardService.listarAcoes(idCard);
+			for(ActionDto action : actions) {
 				if(action.getData().getText() != null) {
 					if(action.getData().getText().contains("plus!")) {
 						
@@ -125,7 +125,7 @@ public class RelatorioService {
 	private int totalEnvioParaQA(String idCard) {
 		int qtd = 0;
 		try {
-			for(ActionEntity dto : cardService.listarAcoes(idCard)) {			
+			for(ActionDto dto : cardService.listarAcoes(idCard)) {			
 				if (dto.getData().getListAfter() != null) {
 					if((dto.getData().getListAfter().getName().contains("QA/Testes")) &&
 					   (!dto.getData().getListBefore().getName().contains("QA/Testes"))){

@@ -4,7 +4,6 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.com.teltelecom.entities.MemberEntity;
 import lombok.Data;
 
 @Data
@@ -25,5 +24,5 @@ public class RelatorioDto {
 	Double horasGastas;
 	int totalEnvioQA;
 	
-	MemberEntity[] membros;
+	MemberDto[] membros;
 }

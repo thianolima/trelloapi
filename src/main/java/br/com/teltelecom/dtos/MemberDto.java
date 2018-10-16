@@ -1,9 +1,9 @@
-package br.com.teltelecom.entities;
+package br.com.teltelecom.dtos;
 
 import lombok.Data;
 
 @Data
-public class MemberEntity {
+public class MemberDto {
 
 	String id;
 	String fullName;

@@ -1,4 +1,4 @@
-package br.com.teltelecom.entities;
+package br.com.teltelecom.dtos;
 
 import java.util.Date;
 
@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Data
-public class ActionEntity {
+public class ActionDto {
 
 	private String id;
 	private Date date;
@@ -20,16 +20,16 @@ public class ActionEntity {
 		private String text;
         
         @Getter @Setter
-        private BoardEntity board;
+        private BoardDto board;
         
         @Getter @Setter
-        private CardEntity card;
+        private CardDto card;
         
         @Getter @Setter
-        private ListAfterEntity listAfter;
+        private ListAfterDto listAfter;
         
         @Getter @Setter
-        private ListBeforeEntity listBefore;          
+        private ListBeforeDto listBefore;          
     }
 		
 }
